@@ -23,7 +23,7 @@ export default function Root() {
             }
         ]
     },
-    { id: '2', name: 'Team', href: '/login', current: false, show: false, children:[] },
+    { id: '2', name: 'Dashboard', href: '/dashboard', current: false, show: false, children:[] },
     { id: '3', name: 'Projects', href: '#', current: false, show: false, children:[] },
     { id: '4', name: 'Calendar', href: '#', current: false, show: false, children:[] },
     ])
