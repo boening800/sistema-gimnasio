@@ -1,13 +1,9 @@
+import './index.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
 import CFallback from './components/CFallback'
-import './index.css'
-// import Dashboard from './pages/Dashboard'
-// import ErrorPage from './pages/ErrorPage'
-// import Login from './pages/Login'
-// import Users from './pages/Users'
-// import Root from './pages/Root'
 
 const Root = React.lazy(()=>import( './pages/Root'))
 const ErrorPage = React.lazy(()=>import( './pages/ErrorPage'))
