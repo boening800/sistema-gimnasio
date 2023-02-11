@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import CFallback from './components/CFallback'
+import { Toaster } from 'react-hot-toast'
 
 const Root = React.lazy(()=>import( './pages/Root'))
 const ErrorPage = React.lazy(()=>import( './pages/ErrorPage'))
@@ -49,6 +50,11 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
-      <RouterProvider router={router}/>
+    <React.Fragment>
+    <Toaster 
+      position="top-right"
+    />
+    <RouterProvider router={router}/>
+    </React.Fragment>
   // </React.StrictMode>,
 )
