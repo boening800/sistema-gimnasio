@@ -11,3 +11,8 @@ html, body {
   padding: 0;
   box-sizing: content-box;
 }
+
+.required:after {
+  content:" *";
+  color: red;
+}

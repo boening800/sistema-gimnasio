@@ -1,29 +1,43 @@
-import { addDoc, collection } from "@firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from "@firebase/firestore";
 import { db } from "../../firebase";
 
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { useForm } from "react-hook-form";
-import { toast, ToastBar, Toaster } from "react-hot-toast";
-import { useState } from "react";
+import { useId, useState } from "react";
+
+import {CToast} from '../../components/CToast';
 
 export default function RegisterUser({open, onClose}) {
 
-    const [disabledBtn, setDisabledBtn] = useState(false);
+    const id = useId();
+
+    const [disabledBtn, setDisabledBtn] = useState(false); // HABILITAR / DESHABILITAR BOTON
+
     const addUser = async (data) => {
-        setDisabledBtn(true)
+        setDisabledBtn(true);
         try {
-        const docRef = await addDoc(collection(db, "users"), data);
-        console.log("Document written with ID: ", docRef.id)
+            const q = query(collection(db,'users'), where('email','==',data.email));
+            const verifyEmail = await getDocs(q);
+            if (verifyEmail.empty) {
+                await addDoc(collection(db, "users"), data);
+                CToast('success','Usuario creado correctamente.');
+                setDisabledBtn(false);
+                onClose();
+                reset();
+            }else {
+                CToast('alert','El correo ya se encuentra registrado.');
+                setDisabledBtn(false);
+            }
         } catch (e) {
-        console.error("Error adding document: ", e);
+            CToast('error');
+            setDisabledBtn(false);
+            onClose();
+            reset();
         }
-        setDisabledBtn(false)
-        toast.success('Successfully created!');
-        onClose();
-        reset();
+
     }
 
-    const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
     if (open == false) return;
 
@@ -33,18 +47,20 @@ export default function RegisterUser({open, onClose}) {
                 <div className="w-[50%] bg-white p-4 rounded-md">
                     <div className="flex justify-between">
                         <h1>Registrar Usuario</h1>
-                        <span className="cursor-pointer" onClick={()=>{onClose(); reset();}}><XMarkIcon className="h-5 w-5 text-cyan-600"/></span>
+                        <button className="cursor-pointer" onClick={()=>{onClose(); reset();}} disabled={disabledBtn}><XMarkIcon className="h-5 w-5 text-cyan-600"/></button>
                     </div>
                     <hr className="border-cyan-600 my-4"/>
                     <form onSubmit={handleSubmit(addUser)} className='flex flex-col gap-1'>
 
                         <div className="col-span-6 sm:col-span-3">
-                            <label className="">Nombres</label>
-                            <input 
+                            <label htmlFor={id+'-Name'}>Nombres</label>
+                            <input
+                            id={id+'-Name'}
                             className="w-full py-2 px-3 bg-gray-100 rounded-md focus:outline-none" 
                             type="text"
                             placeholder="Ingrese nombres"
-                            {...register("names",{ required: true })}/>
+                            {...register("names",{ required: true })}
+                            required/>
                             {errors.names && <span className="text-red-500 text-xs">Campo requerido.</span>}
                         </div>
 
@@ -86,7 +102,6 @@ export default function RegisterUser({open, onClose}) {
                                 <option value={'E'}>Entrenador</option>
                                 <option value={'O'}>Otros</option>
                             </select>
-                            {errors.type && <span className="text-red-500 text-xs">Campo requerido.</span>}
                         </div>
 
                         <div className="flex gap-2 mt-4">
@@ -96,7 +111,6 @@ export default function RegisterUser({open, onClose}) {
                             value="Registrar"
                             disabled={disabledBtn}
                             />
-                            {/* <input className="px-4 py-2 bg-white text-cyan-600 rounded-full cursor-pointer hover:shadow-md" type="button" value="Cancelar" onClick={onClose}/> */}
                         </div>
                     </form>
                 </div>
