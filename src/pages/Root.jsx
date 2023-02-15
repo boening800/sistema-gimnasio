@@ -36,7 +36,7 @@ export default function Root() {
 
     return (
         <React.Fragment>
-            <div className="h-full">
+            <div className="h-full ">
                 <div className={`fixed transition-all ease-in duration-200 ${show ? 'left-0' : 'phone:left-[-18rem] w-full'} phone:w-72 bg-gray-100 border-gray-200 border-[1px] flex flex-col h-full`}>
                     <div className="h-12 px-3">
                         {/* logo */}
@@ -62,16 +62,15 @@ export default function Root() {
                                                     {item.name}
                                                     {   item.children.length != 0 &&
                                                     <span className="z-40" >
-                                                       {
+                                                        {
                                                             item.show ?
                                                             <ChevronUpIcon className="h-5 w-5"/>
                                                             :
                                                             <ChevronDownIcon className="h-5 w-5"/>
-                                                       } 
+                                                        } 
                                                     </span>
                                                 }
                                                 </Link>
-                                               
                                             </div>
                                             {
                                                 item.children.map(
@@ -94,7 +93,7 @@ export default function Root() {
                         </div>
                     </div>
                 </div>
-                <div className={`ransition-all ease-in duration-200 ${!show ? 'ml-0' : 'phone:ml-[18rem]'} bg-gray-200 h-screen`}>
+                <div className={`ransition-all ease-in duration-200 ${!show ? 'ml-0' : 'phone:ml-[18rem]'} h-full`}>
                     <Disclosure as="nav" className={`bg-gray-100   h-12 text-white px-3`}>
                         <div className="flex h-full items-center">
                             <div className="flex flex-row justify-between w-full">

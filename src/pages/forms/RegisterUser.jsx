@@ -6,10 +6,9 @@ import { useForm } from "react-hook-form";
 import { useId, useState } from "react";
 
 import {CToast} from '../../components/CToast';
+import CButton from "../../components/CButton";
 
 export default function RegisterUser({open, onClose}) {
-
-    const id = useId();
 
     const [disabledBtn, setDisabledBtn] = useState(false); // HABILITAR / DESHABILITAR BOTON
 
@@ -46,16 +45,15 @@ export default function RegisterUser({open, onClose}) {
             <div className="fixed bg-[rgba(10,9,9,0.5)] w-full h-full top-0 left-0 z-[1000] flex justify-center items-center">
                 <div className="w-[50%] bg-white p-4 rounded-md">
                     <div className="flex justify-between">
-                        <h1>Registrar Usuario</h1>
+                        <h1 className='text-gray-500 font-bold'>Registrar Usuario</h1>
                         <button className="cursor-pointer" onClick={()=>{onClose(); reset();}} disabled={disabledBtn}><XMarkIcon className="h-5 w-5 text-cyan-600"/></button>
                     </div>
                     <hr className="border-cyan-600 my-4"/>
                     <form onSubmit={handleSubmit(addUser)} className='flex flex-col gap-1'>
 
                         <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor={id+'-Name'}>Nombres</label>
+                            <label className='text-gray-500'>Nombres</label>
                             <input
-                            id={id+'-Name'}
                             className="w-full py-2 px-3 bg-gray-100 rounded-md focus:outline-none" 
                             type="text"
                             placeholder="Ingrese nombres"
@@ -65,7 +63,7 @@ export default function RegisterUser({open, onClose}) {
                         </div>
 
                         <div className="col-span-6 sm:col-span-3">
-                            <label className="">Apellidos</label>
+                            <label className='text-gray-500'>Apellidos</label>
                             <input 
                             className="w-full py-2 px-3 bg-gray-100 rounded-md focus:outline-none" 
                             type="text" 
@@ -74,7 +72,7 @@ export default function RegisterUser({open, onClose}) {
                         </div>
 
                         <div className="col-span-6 sm:col-span-3">
-                            <label className="">Correo</label>
+                            <label className='text-gray-500'>Correo</label>
                             <input 
                             className="w-full py-2 px-3 bg-gray-100 rounded-md focus:outline-none" 
                             type="email" 
@@ -83,7 +81,7 @@ export default function RegisterUser({open, onClose}) {
                         </div>
 
                         <div className="col-span-6 sm:col-span-3">
-                            <label className="">Contraseña</label>
+                            <label className='text-gray-500'>Contraseña</label>
                             <input 
                             className="w-full py-2 px-3 bg-gray-100 rounded-md focus:outline-none" 
                             type="password" 
@@ -92,7 +90,7 @@ export default function RegisterUser({open, onClose}) {
                         </div>
 
                         <div className="col-span-6 sm:col-span-3">
-                            <label className="">Tipo</label>
+                            <label className='text-gray-500'>Tipo</label>
                             <select
                             defaultValue={'A'}
                             className="mt-1 block w-full rounded-md border bg-gray-100 py-2 px-3 shadow-sm focus:outline-none sm:text-sm"
@@ -105,12 +103,13 @@ export default function RegisterUser({open, onClose}) {
                         </div>
 
                         <div className="flex gap-2 mt-4">
-                            <input 
+                            {/* <input 
                             className="px-4 py-2 bg-cyan-600 text-white rounded-full cursor-pointer hover:shadow-md disabled:bg-slate-400 disabled:cursor-none" 
                             type="submit" 
                             value="Registrar"
                             disabled={disabledBtn}
-                            />
+                            /> */}
+                            <CButton placeholder={"Registrar"} type={'submit'} disabled={disabledBtn}></CButton>
                         </div>
                     </form>
                 </div>
