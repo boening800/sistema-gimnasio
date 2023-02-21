@@ -12,7 +12,7 @@ import * as Yup from "yup";
 import { CToast } from '../../components/CToast';
 import CButton from "../../components/CButton";
 
-export default function RegisterUser({ open, onClose, onAdd }) {
+export default function UpdateUser({ open, onClose, onUpdate, id }) {
 
     const validationSchema = Yup.object().shape({
         names: Yup.string().required('Campo requerido.'),
@@ -65,7 +65,7 @@ export default function RegisterUser({ open, onClose, onAdd }) {
                 ).then(
                     ()=>{
                         CToast('success', 'Usuario creado correctamente.');
-                        onAdd();
+                        onUpdate();
                     }
                 ).catch(
                     ()=>{

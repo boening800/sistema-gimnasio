@@ -1,9 +1,40 @@
 import { LockClosedIcon } from '@heroicons/react/20/solid'
+import { yupResolver } from '@hookform/resolvers/yup';
+import "../firebase"
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import React from 'react'
+import { useForm } from 'react-hook-form';
 
+import * as Yup from "yup";
 import logo from '../assets/logo.png'
+import { CToast } from '../components/CToast';
 
 export default function Login() {
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().required('Campo requerido.').email('Debe ingresar un correo.'),
+    password: Yup.string().required("Campo requerido.").min(8, "Contraseña debe contener 8 caracteres como mínimo."),
+  });
+
+  const SignIn = (data) => {
+    try {
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, data.email, data.password).then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          CToast('success','Credenciales correctas.');
+        }).catch(() => {
+          CToast('alert','Credenciales incorrectas');
+        }).finally(()=>{
+
+        });
+    } catch (error) {
+      CToast('error');
+    }
+   
+  }
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: yupResolver(validationSchema) });
+
   return (
     <React.Fragment>
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -21,7 +52,7 @@ export default function Login() {
               Este es un sistema de prueba.
             </p>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit(SignIn)} >
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
@@ -29,28 +60,28 @@ export default function Login() {
                   Correo
                 </label>
                 <input
-                  id="email-address"
                   name="email"
                   type="email"
                   autoComplete="email"
-                  required
                   className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm"
                   placeholder="Correo"
+                  {...register("email", { required: true })}
                 />
+                {errors.email && <span className="text-red-500 text-xs">{errors.email.message}</span>}
               </div>
               <div>
                 <label htmlFor="password" className="sr-only">
                   Constraseña
                 </label>
                 <input
-                  id="password"
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  required
                   className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm"
                   placeholder="Constraseña"
+                  {...register("password", { required: true })}
                 />
+                {errors.password && <span className="text-red-500 text-xs">{errors.password.message}</span>}
               </div>
             </div>
 

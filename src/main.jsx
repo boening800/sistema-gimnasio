@@ -51,10 +51,10 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
     <React.Fragment>
-    <Toaster 
-      position="top-right"
-    />
-    <RouterProvider router={router}/>
+      <Toaster 
+        position="top-right"
+      />
+      <RouterProvider router={router}/>
     </React.Fragment>
   // </React.StrictMode>,
 )
